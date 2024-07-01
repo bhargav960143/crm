@@ -100,6 +100,7 @@ class CompanyController extends Controller
                 'password' => Hash::make($request->password),
                 'user_role' => array_flip(Role::ROLES)['Company Admin']
             ]);
+            $user->roles()->sync(array_flip(Role::ROLES)['Company Admin']);
             $company = Company::create([
                 'name' => $request->name,
                 'user_id' => $user->id

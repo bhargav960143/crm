@@ -446,7 +446,7 @@ class CompanyUserApiController extends Controller
             if ($user->user_role == array_flip(Role::ROLES)['Company Admin']) {
                 if (isset($user->company) && !empty($user->company)) {
                     $userMain = User::find($userRequest['user_id']);
-                    if ($user->company->id == $userMain->companyUser->company_id) {
+                    if ($user->company->id == $userMain->companyUser->company_id && $userMain->user_role != array_flip(Role::ROLES)['Company Admin']) {
                         $userMain->name = ucfirst($userRequest['name']);
                         $userMain->email = strtolower($userRequest['email']);
                         $userMain->password = Hash::make(trim($userRequest['password']));
@@ -555,7 +555,7 @@ class CompanyUserApiController extends Controller
             if ($user->user_role == array_flip(Role::ROLES)['Company Admin']) {
                 if (isset($user->company) && !empty($user->company)) {
                     $userDetails = User::findOrFail($userRequest['user_id']);
-                    if ($user->company->id == $userDetails->companyUser->company_id) {
+                    if ($user->company->id == $userDetails->companyUser->company_id && $userDetails->user_role != array_flip(Role::ROLES)['Company Admin']) {
                         $userDetails->companyUser()->delete();
                         $userDetails->delete();
                         DB::commit();
